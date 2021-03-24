@@ -9,6 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import { NavLink } from 'react-bootstrap'
 import { ScatterPlot } from '@material-ui/icons'
+import { useAuth } from '../../hooks/queries/useAuth'
 
 const drawerWidth = '80%';
 
@@ -122,6 +123,7 @@ export default function Navigation() {
     const matches = useMediaQuery('(min-width:800px)')
     const [anchorEl, setAnchorE1] = React.useState(null)
     const [open, setOpen] = React.useState(false)
+    const { isAuthenticated } = useAuth()
 
     const handleMouseOver = (event) => {
         setAnchorE1(event.currentTarget)
@@ -164,11 +166,12 @@ export default function Navigation() {
                             <MenuItem component={Link} className={classes.dropDownItem} href='/comingsoon'>Restaurants</MenuItem>
                             <MenuItem component={Link} className={classes.dropDownItem} href='/comingsoon'>Advertisements</MenuItem>
                         </Menu>
-                        <IconButton
-                            className={classes.navSignIn} href='/comingsoon'>
-                            <AccountCircle />
-                        </IconButton>
-                        <Button className={classes.navSignUp} href='/comingsoon'>Sign Up</Button>
+                        { isAuthenticated ? 
+                            <IconButton
+                                className={classes.navSignIn} href='/signin'>
+                                <AccountCircle />
+                            </IconButton>
+                            : <Button className={classes.navSignUp} href='/signin'>Sign In</Button> }                        
                     </Toolbar>
                 </AppBar>
             </> : <>
@@ -177,12 +180,13 @@ export default function Navigation() {
                         <Typography component={Link} href='/' className={classes.title} variant="h6" >
                             Buds
                         </Typography>
+                        { isAuthenticated ? 
                         <IconButton
                             className={classes.navSignIn}
-                            href='/comingsoon'>
+                            href='/signin'>
                             <AccountCircle />
                         </IconButton>
-                        <Button className={classes.navSignUp} href='/comingsoon'>Sign Up</Button>
+                        : <Button className={classes.navSignUp} href='/signin'>Sign In</Button> }
                         <IconButton 
                             className={classes.menuButton, clsx(open && classes.hide)} 
                             edge="end" 
@@ -208,7 +212,7 @@ export default function Navigation() {
                         </IconButton>
                     </div>
                     <List className={classes.signInWrapper}>
-                        <ListItem component='a' className={classes.signInButton} href='/comingsoon' button key="SignIn">
+                        <ListItem component='a' className={classes.signInButton} href='/signin' button key="SignIn">
                             <ListItemText className={classes.signInText} primary='Sign In' />
                         </ListItem>
                     </List>

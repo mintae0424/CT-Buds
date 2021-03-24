@@ -6,7 +6,7 @@ import Landing from './components/Landing/Landing'
 
 // const Landing = React.lazy(() => import('./components/Landing/Landing'))
 const WorkInProgress = React.lazy(() => import('./components/WorkInProgress/WorkInProgress'))
-
+const Auth = React.lazy(() => import('./components/Auth/Auth'))
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={Landing} />
         <Route exact path='/comingsoon' component={WorkInProgress} />
+        <Route exact path='/signin' component={Auth} />
       </Switch>
     </>
   );
