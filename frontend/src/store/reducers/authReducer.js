@@ -2,7 +2,7 @@ import { SET_USER } from "../actionTypes"
 
 const initialState = {
     isAuthenticated: false,
-    uid: null
+    user: null
 }
 
 export default function authReducer(authState = initialState, {payload, type}) {
@@ -10,7 +10,7 @@ export default function authReducer(authState = initialState, {payload, type}) {
         case SET_USER:
             return {
                 isAuthenticated: payload.isAuthenticated,
-                uid: payload.uid
+                user: payload.user
             }
         default:
             return authState

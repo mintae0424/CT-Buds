@@ -81,9 +81,9 @@ firebase.initializeApp(firebaseConfig)
 function onAuthStateChanged(callback) {
     return firebase.auth().onAuthStateChanged(user => {
         if (user) {
-            callback({isAuthenticated: true, uid: user.uid})
+            callback({isAuthenticated: true, user: user})
         } else {
-            callback({isAuthenticated: false, uid: null})
+            callback({isAuthenticated: false, user: null})
         }
     })
 }
@@ -105,7 +105,7 @@ function logout() {
 export default function Auth(){
     const classes = useStyles()
     const { signinUser } = useAuthActions()
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, user } = useAuth()
 
     const fireBaseUIConfig = {
         signInFlow: 'popup',
@@ -116,6 +116,7 @@ export default function Auth(){
             signInSuccessWithAuthResult: () => false
         }
     }
+    
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(signinUser)
@@ -135,6 +136,8 @@ export default function Auth(){
                 <div className={classes.textWrap}>
                     { isAuthenticated ? 
                         <>
+                            <div>{user.displayName}</div>
+                            <div>{user.email}</div>
                             <List>
                                 <ListItem  button component='a' href='/comingsoon'>
                                     <div className={classes.signinFeatures}>Set Preference</div>

@@ -2,10 +2,10 @@ import { SET_USER, LOGOUT_USER } from '../actionTypes'
 
 export const setUser = ({
     isAuthenticated= false,
-    uid,
+    user,
 }) => ({
     type: SET_USER,
-    payload: { isAuthenticated, uid }
+    payload: { isAuthenticated, user }
 })
 
 export const handleLogout = () => ({

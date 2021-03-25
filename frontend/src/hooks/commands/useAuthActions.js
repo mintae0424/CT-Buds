@@ -9,7 +9,7 @@ export function useAuthActions() {
         dispatch(
             setUser({
                 isAuthenticated: authState.isAuthenticated,
-                uid: authState.uid,
+                user: authState.user,
             })
         )
     }
@@ -18,7 +18,7 @@ export function useAuthActions() {
         dispatch(
             setUser({
                 isAuthenticated: false,
-                uid: null,
+                user: null,
             })
         )
     }
