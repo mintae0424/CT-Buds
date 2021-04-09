@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import firebase from 'firebase'
 import { fade, makeStyles } from '@material-ui/core/styles'
@@ -78,12 +79,13 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig)
 
-function onAuthStateChanged(callback) {
-    return firebase.auth().onAuthStateChanged(user => {
+function onAuthStateChanged(callback1, callback2) {
+    return firebase.auth().onAuthStateChanged(async user => {
         if (user) {
-            callback({isAuthenticated: true, user: user})
+            const idToken = await firebase.auth().currentUser?.getIdToken()
+            await callback1({isAuthenticated: true, user: user, token: idToken})
         } else {
-            callback({isAuthenticated: false, user: null})
+            callback2()
         }
     })
 }
@@ -104,8 +106,10 @@ function logout() {
 
 export default function Auth(){
     const classes = useStyles()
-    const { signinUser } = useAuthActions()
+    const { authUser, logoutUser } = useAuthActions()
     const { isAuthenticated, user } = useAuth()
+
+    const history = useHistory()
 
     const fireBaseUIConfig = {
         signInFlow: 'popup',
@@ -116,10 +120,18 @@ export default function Auth(){
             signInSuccessWithAuthResult: () => false
         }
     }
+
+    const handleClickToPreferences = () => {
+        let id = user._id
+
+        let path = `/users/${id}`
+
+        history.push(path)
+    }
     
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(signinUser)
+        const unsubscribe = onAuthStateChanged(authUser, logoutUser)
         return () => {
             unsubscribe();
         }
@@ -139,7 +151,7 @@ export default function Auth(){
                             <div>{user.displayName}</div>
                             <div>{user.email}</div>
                             <List>
-                                <ListItem  button component='a' href='/comingsoon'>
+                                <ListItem  button onClick={handleClickToPreferences}>
                                     <div className={classes.signinFeatures}>Set Preference</div>
                                 </ListItem>
                                 <ListItem  button component='a' href='/'>
@@ -151,7 +163,6 @@ export default function Auth(){
                             </List>
                         </>
                         : <StyledFirebaseAuth uiConfig={fireBaseUIConfig} firebaseAuth={firebase.auth()} />}
-                    {console.log(isAuthenticated)}
                 </div>
                 <img className={classes.mainBG} src={WorkInProgressImage} />
             </div>

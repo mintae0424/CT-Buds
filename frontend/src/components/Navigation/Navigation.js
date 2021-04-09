@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
+import firebase from 'firebase'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { AppBar, Toolbar, IconButton, Button, Menu, MenuItem, Link, useMediaQuery, Typography, Drawer, Divider, List, ListItem, ListItemText, Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core"
 import AccountCircle from '@material-ui/icons/AccountCircle'
@@ -10,6 +11,11 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import { NavLink } from 'react-bootstrap'
 import { ScatterPlot } from '@material-ui/icons'
 import { useAuth } from '../../hooks/queries/useAuth'
+import { useAuthActions } from '../../hooks/commands/useAuthActions'
+import { useHistory } from 'react-router'
+import { useModalActions } from '../../hooks/commands/useModalActions'
+import { useModal } from '../../hooks/queries/useModal'
+import NavModal from './NavModal'
 
 const drawerWidth = '80%';
 
@@ -55,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
     navSignIn: {
         color: 'black',
         textTransform: 'none',
+        '&:hover':{
+            backgroundColor: 'rgba(0,0,0,.5)',
+        }
     },
     navSignUp: {
         color: 'white',
@@ -113,6 +122,13 @@ const useStyles = makeStyles((theme) => ({
 
     menuItemDropdown: {
         width: '100%',
+    },
+    popperArea: {
+        width: '100px',
+        backgroundColor: 'rgba(73, 148, 61, 1)',
+        marginTop: '',
+        paddingTop: '',
+        borderRadius: '10px 0px 10px 10px'
     }
 
 }))
@@ -121,9 +137,14 @@ export default function Navigation() {
     const classes = useStyles()
     const theme = useTheme()
     const matches = useMediaQuery('(min-width:800px)')
-    const [anchorEl, setAnchorE1] = React.useState(null)
+    const [anchorEl, setAnchorE1] = useState(null)
     const [open, setOpen] = React.useState(false)
-    const { isAuthenticated } = useAuth()
+    const { logoutUser } = useAuthActions()
+    const { isAuthenticated, user } = useAuth()
+    const { toggleModalTrue } = useModalActions()
+    const { modalVisible } = useModal()
+    let history = useHistory()
+
 
     const handleMouseOver = (event) => {
         setAnchorE1(event.currentTarget)
@@ -139,6 +160,16 @@ export default function Navigation() {
 
     const handleDrawerClose = () => {
         setOpen(false)
+    }
+
+    const handleOpenModal = () => {
+        toggleModalTrue('navigation')
+    }
+
+    const handleLogout = (event) => {
+        event.preventDefault()
+
+        logoutUser()
     }
 
     return (
@@ -180,12 +211,14 @@ export default function Navigation() {
                         <Typography component={Link} href='/' className={classes.title} variant="h6" >
                             Buds
                         </Typography>
-                        { isAuthenticated ? 
-                        <IconButton
-                            className={classes.navSignIn}
-                            href='/signin'>
-                            <AccountCircle />
-                        </IconButton>
+                        { isAuthenticated ?
+                            <div className={classes.navSignIn, clsx(modalVisible && classes.hide)}>
+                                <IconButton
+                                    color='inherit'
+                                    onClick={handleOpenModal}>
+                                    <AccountCircle />
+                                </IconButton>
+                            </div>
                         : <Button className={classes.navSignUp} href='/signin'>Sign In</Button> }
                         <IconButton 
                             className={classes.menuButton, clsx(open && classes.hide)} 
@@ -212,9 +245,13 @@ export default function Navigation() {
                         </IconButton>
                     </div>
                     <List className={classes.signInWrapper}>
-                        <ListItem component='a' className={classes.signInButton} href='/signin' button key="SignIn">
-                            <ListItemText className={classes.signInText} primary='Sign In' />
-                        </ListItem>
+                        {isAuthenticated ? 
+                            <ListItem component='a' className={classes.signInButton} button key="SignIn" onClick={handleLogout}>
+                                <ListItemText className={classes.signInText} primary='Sign Out' />
+                            </ListItem> 
+                            : <ListItem component='a' className={classes.signInButton} href='/signin' button key="SignIn">
+                                <ListItemText className={classes.signInText} primary='Sign In' />
+                            </ListItem>}
                     </List>
                     <Divider />
                     <List>
@@ -241,6 +278,7 @@ export default function Navigation() {
                     </List>
                 </Drawer>
             </>}
+            <NavModal />
         </>
     )
 }

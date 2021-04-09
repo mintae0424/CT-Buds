@@ -1,0 +1,199 @@
+
+.text-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 60vh;
+    left: 0px;
+    top: 40vh;
+    background: #84B458;
+    border-radius: 36px 36px 0px 0px;
+    overflow: hidden;
+}
+
+.category-select {
+    position: absolute;
+    top: 160px;
+    left: 50px;
+    width: 150px;
+    z-index: 999;
+}
+
+.title-text {
+    position: absolute;
+    top: 20px;
+    width: 100% - 50px;
+    padding: 50px;
+
+    font-size: 40px;
+    line-height: 40px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+}
+
+.address-wrap {
+    /* 111 West 1st St */
+
+    position: absolute;
+    display: flex;
+    width: 100% - 50px;
+    padding: 50px;
+    top: 70px;
+
+    font-size: 15px;
+    line-height: 25px;
+
+    color: #000000;
+}
+
+.button-wrap {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    top: 200px;
+    width: 200px;
+    left: 50%;
+    margin-left: -100px;
+}
+
+/* truefood-2 1 */
+.menu-image {
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 210px;
+    left: 50%;
+    margin-left: -150px;
+    border-radius: 49px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    /* c9bb20b10d00624efde70d2ef01e114b 1 */
+}
+
+.menu-text-wrap {
+    position: absolute;
+    top: 530px;
+    left: 50%;
+    width: 280px;
+    margin-left: -140px;
+}
+
+.menu-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.menu-tags {
+    padding-bottom: 10px;
+}
+
+.menu-description {
+    font-style: italic;
+    font-size: 10px;
+    line-height: 14px;
+
+    color: #000000;
+}
+
+.calories-range {
+    font-style: italic;
+    font-size: 12px;
+    line-height: 15px;
+    padding-top: 7px;
+    color: #000000;
+}
+
+.back-button-wrapper {
+    position: absolute;
+    top: 42%;
+    left: 7px;
+}
+.forward-button-wrapper {
+    position: absolute;
+    top: 42%;
+    right: 1px;
+}
+
+.button-wrapper {
+    position: absolute;
+    bottom: 70px;
+    right: 30px;
+}
+.quantity-adjustment{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100px;
+    bottom: 66px;
+    right: 120px;
+}
+.bottom-wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 306px;
+    left: 50%;
+    margin-left: -158px;
+    bottom: 15px;
+    background-color: rgba(73, 148, 61, 1);
+    border-radius: 10px;
+}
+.icon-wrapper-1{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 34px;
+}
+.icon-wrapper-2{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 102px;
+}
+.icon-wrapper-3{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 170px;
+}
+.icon-wrapper-4{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 238px;
+}
+
+.error-wrapper{
+    position: absolute;
+    text-align: center;
+    top: 380px;
+    left: 50%;
+    width: 280px;
+    margin-left: -140px;
+}
+
+.popper-button-wrapper{
+    position: absolute;
+    bottom: 55px;
+    right: -10px;
+}
+
+
+/* .filter-button-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    background-color: rgba(73, 148, 61, .5);
+    left: -30px;
+    width: 230px;
+    border-radius: 10px;
+    padding: 0px 10px 0px 10px
+} */
+

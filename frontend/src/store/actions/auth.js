@@ -1,4 +1,4 @@
-import { SET_USER, LOGOUT_USER } from '../actionTypes'
+import { SET_USER, LOGOUT_USER, UPDATE_USER } from '../actionTypes'
 
 export const setUser = ({
     isAuthenticated= false,
@@ -12,6 +12,11 @@ export const handleLogout = () => ({
     type: LOGOUT_USER
 })
 
-export const handleAuthError = error => {
-    console.log(error)
-}
+export const updateUser = ({user}) => ({
+    type: UPDATE_USER,
+    payload: user
+})
+
+export const handleAuthError = error => ({
+    type: "ERROR",
+})

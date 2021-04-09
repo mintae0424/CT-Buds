@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import LandingImage from '../../images/LandingImage.png'
 import { fade, makeStyles } from '@material-ui/core/styles'
-import { InputBase, Button, IconButton } from '@material-ui/core'
+import { InputBase, Button, IconButton, TextField } from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab'
 import SearchIcon from '@material-ui/icons/Search'
+import { useRestaurants } from '../../hooks/queries/useRestaurants'
+import { useRestaurantActions } from '../../hooks/commands/useRestaurantActions'
+import { useCurrentRestaurantActions } from '../../hooks/commands/useCurrentRestaurantActions'
+
+const initialFormData = {
+    submitted: false,
+    restaurant_id: '',
+}
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -73,6 +83,9 @@ const useStyles = makeStyles((theme) => ({
           width: '20ch',
         },
       },
+      inputArea: {
+        width: '100%',
+      },
       findButton: {
           width: '100%',
           marginTop: theme.spacing(2),
@@ -93,6 +106,47 @@ const useStyles = makeStyles((theme) => ({
 export default function LandingMain() {
 
     const classes = useStyles()
+    const { restaurants } = useRestaurants()
+    const { getAllRestaurants } = useRestaurantActions()
+    const { getRestaurantById } = useCurrentRestaurantActions()
+    const [ formData, setFormData ] = useState(initialFormData)
+    const { submitted } = formData
+    const history = useHistory()
+
+
+
+    const handleSearchInput = (event, values) => {
+        setFormData({
+            ...formData,
+            restaurant_id: values._id
+        })
+    }
+
+    const handleSearchSubmit = async (event) => {
+        event.preventDefault()
+
+        setFormData({
+            ...formData,
+            submitted: true
+        })
+        console.log(formData.restaurant_id)
+        await getRestaurantById({id: formData.restaurant_id})
+        
+        let path = `/restaurants/${formData.restaurant_id}`
+
+        history.push(path)
+
+        setFormData({
+            ...formData,
+            submitted: false,
+            restaurant_id: '',
+        })
+
+    }
+
+    useEffect(() => {
+        getAllRestaurants()
+    }, [])
 
     return (
         <div className={classes.wrapper}>
@@ -101,19 +155,46 @@ export default function LandingMain() {
                     Get the menu that is designed for you
                 </div>
                 <div className={classes.restaurantSearch}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
-                    </div>
-                    <InputBase 
-                        placeholder="Search restaurant"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{'aria-label': 'search'}}
+                    
+                    <Autocomplete
+                        className={classes.inputRoot}
+                        options={restaurants}
+                        getOptionLabel={(option) => option.name}
+                        onChange={handleSearchInput}
+                        renderInput={(params) => (
+                            <div className={classes.restaurantSearch} ref={params.InputProps.ref}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon />
+                                </div>
+                                <TextField
+                                    style={{
+                                        width: '80%',
+                                        paddingLeft: '50px',
+
+                                    }}
+                                    placeholder="Search restaurant" 
+                                    className={classes.inputInput} 
+                                    type='text'
+                                    InputProps={{ disableUnderline: true }}
+                                    {...params.inputProps}
+                                    // 
+                                />
+                                {/* <InputBase 
+                                    placeholder="Search restaurant"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    inputProps={{'aria-label': 'search'}}
+                                /> */}
+                            </div>
+                        )}
                     />
+
+                    
+                    
                 </div>
-                <Button href='/comingsoon' className={classes.findButton}>Find Restaurant</Button>
+                <Button onClick={handleSearchSubmit} className={classes.findButton}>Find Restaurant</Button>
                 <div className={classes.qrcodeText}>
                     or access menu by scanning the QR code
                 </div>
