@@ -23,7 +23,6 @@ export default function modalReducer(cartState = initialState, {payload, type}){
                 cart: []
             }
         case UPDATE_CART:
-            console.log(payload)
             return {
                 ...cartState,
                 cart: payload.cart

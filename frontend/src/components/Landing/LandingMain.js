@@ -129,7 +129,6 @@ export default function LandingMain() {
             ...formData,
             submitted: true
         })
-        console.log(formData.restaurant_id)
         await getRestaurantById({id: formData.restaurant_id})
         
         let path = `/restaurants/${formData.restaurant_id}`

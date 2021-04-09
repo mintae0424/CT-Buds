@@ -231,7 +231,6 @@ export default function UserPreferences(){
             submitted: true
         })
 
-        console.log(formData)
 
         let prefObj = {
             allergy_id: formData.allergy_id,

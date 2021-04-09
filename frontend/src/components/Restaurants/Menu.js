@@ -266,7 +266,6 @@ export default function UserPreferences(){
             }
         })
 
-        console.log(isAuthenticated)
         if (isAuthenticated && pref) {
             newMenu = newMenu.filter(menu => {
                 if (menu.allergy_id.every(id => !user.allergy_id.includes(id))){

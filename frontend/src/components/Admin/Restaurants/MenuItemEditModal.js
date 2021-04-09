@@ -233,7 +233,6 @@ export default function MenuItemEditModal({data}){
     }
 
     const handleSelectChange = (event) => {
-        console.log(event)
         formData[event.target.name].name = event.target.value
 
         let i = info.menu_categories.findIndex(category => category.name === event.target.value)
