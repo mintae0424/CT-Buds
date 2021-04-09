@@ -6,6 +6,7 @@ import { setUser, handleLogout, updateUser, handleAuthError } from '../../store/
 
 const authUser = dispatch => authState => {
     setAuthToken(authState.token)
+    console.log(authState)
     dispatch(
         apiRequest({
             method: 'POST',

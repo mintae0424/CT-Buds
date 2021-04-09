@@ -1,4 +1,4 @@
-export const API_URL = 'https://buds-backend.herokuapp.com/'
+export const API_URL = 'http://localhost:4000'
 export const SET_USER_URL = '/api/users/set-user'
 export const SIGNIN_URL = '/api/users/signin'
 export const UPDATE_PREFERENCE = '/api/users/update-pref'

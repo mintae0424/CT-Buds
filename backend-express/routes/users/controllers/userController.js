@@ -15,16 +15,29 @@ module.exports = {
             if (!validated){
                 res.status(401)
             }
-            let foundUser = await checkUser(req.body)
-            if (!foundUser){
-                res.status(401)
+            let uid = req.body.uid
+            let foundUser = await User.findOne({uid})
+            console.log("found user", foundUser)
+            if (foundUser === null){
+                console.log('hitting')
+                let newUser = await new User({
+                    uid: req.body.uid,
+                    email: req.body.email,
+                    displayName: req.body.displayName
+                })
+                console.log(newUser)
+                let savedUser = await newUser.save()
+                console.log(savedUser)
+                res.status(200).json({
+                    user: savedUser
+                })
             } else {
-
+                res.status(200).json({
+                    user: foundUser
+                })
             }
-            res.status(200).json({
-                user: foundUser
-            })
         } catch (error) {
+            console.log(error)
             res.status(400).json({
                 message: error.message
             })

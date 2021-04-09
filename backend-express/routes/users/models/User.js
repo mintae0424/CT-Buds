@@ -13,7 +13,6 @@ let UserSchema = new mongoose.Schema({
     displayName: {
         type: String,
         trim: true,
-        unique: true,
         required: true,
         default: ''
     },
@@ -43,6 +42,10 @@ let UserSchema = new mongoose.Schema({
     timestamp: {
         type: String,
         default: now.format('dddd, MMMM Do YYYY, h:mm:ss a')
+    },
+    username: {
+        type: String,
+        default: '',
     }
 })
 

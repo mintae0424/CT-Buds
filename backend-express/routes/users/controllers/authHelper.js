@@ -5,16 +5,18 @@ async function checkUser(user){
         let uid = user.uid
         let foundUser = await User.findOne({uid})
         console.log("found user", foundUser)
-        if (!foundUser){
+        if (foundUser === null){
             let newUser = await new User({
                 uid: user.uid,
                 email: user.email,
                 displayName: user.displayName
             })
-            await newUser.save()
-            return newUser
+            let savedUser = await newUser.save()
+            console.log(savedUser)
+            return savedUser
+        } else {
+            return foundUser
         }
-        return foundUser
     } catch (error) {
         return error
     }
