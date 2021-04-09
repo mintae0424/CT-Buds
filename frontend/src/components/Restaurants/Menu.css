@@ -75,7 +75,7 @@
 
 .menu-text-wrap {
     position: absolute;
-    top: 530px;
+    top: 515px;
     left: 50%;
     width: 280px;
     margin-left: -140px;
@@ -84,8 +84,8 @@
 .menu-title {
     display: flex;
     justify-content: space-between;
-    font-size: 25px;
-    padding: 10px;
+    font-size: 22px;
+    padding: 8px;
 }
 
 .menu-tags {
@@ -121,7 +121,7 @@
 
 .button-wrapper {
     position: absolute;
-    bottom: 70px;
+    bottom: 60px;
     right: 30px;
 }
 .quantity-adjustment{
@@ -130,7 +130,7 @@
     align-items: center;
     justify-content: space-evenly;
     width: 100px;
-    bottom: 66px;
+    bottom: 56px;
     right: 120px;
 }
 .bottom-wrapper {
@@ -141,7 +141,7 @@
     width: 306px;
     left: 50%;
     margin-left: -158px;
-    bottom: 15px;
+    bottom: 5px;
     background-color: rgba(73, 148, 61, 1);
     border-radius: 10px;
 }

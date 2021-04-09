@@ -47,6 +47,7 @@ export default function CartModal(){
     const { info } = useCurrentRestaurant()
     const { cart } = useCart()
     const { clearCart, updateCart } = useCartActions()
+    let history = useHistory()
 
 
     const decreaseQuantity = (id) => {
@@ -76,7 +77,8 @@ export default function CartModal(){
     }
 
     const handlePlaceOrder = () => {
-
+        toggleModalFalse()
+        history.push('/comingsoon')
     }
 
     return (
@@ -127,7 +129,7 @@ export default function CartModal(){
                     <div className='button-group'>
                         <IconButton onClick={handleClearCart}><Delete /></IconButton>
                         <Button style={{backgroundColor: '#C4C4C4'}} className={classes.cancelButton} onClick={toggleModalFalse}>Cancel</Button>
-                        <GreenButton className={classes.cartButton} href='/comingsoon'>Place your order</GreenButton>
+                        <GreenButton className={classes.cartButton} onClick={handlePlaceOrder}>Place your order</GreenButton>
                     </div>
                     <div className='clear-button'>
                     </div>
