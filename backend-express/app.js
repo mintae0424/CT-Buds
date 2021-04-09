@@ -7,7 +7,7 @@ require('dotenv').config()
 let cors = require('cors')
 let mongoose = require('mongoose')
 
-const url = 'mongodb+srv://buds-admin:'+process.env.DB_PW+'@budsdb.iffcq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const url = process.env.MONGODB_URI
 
 const connectionParams={
   useNewUrlParser: true,
