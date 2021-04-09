@@ -9,6 +9,7 @@ import { usePref } from '../../hooks/queries/usePref'
 import GreenButton from '../../factory/Button/GreenButton'
 import { useAuth } from '../../hooks/queries/useAuth'
 import { useAuthActions } from '../../hooks/commands/useAuthActions'
+import { usePrefActions } from '../../hooks/commands/usePrefActions'
 
 const initialFormData = {
     submitted: false,
@@ -159,6 +160,7 @@ export default function UserPreferences(){
     const [ formData, setFormData ] = useState(initialFormData)
     const { isAuthenticated, user } = useAuth() 
     const { updatePreference } = useAuthActions()
+    const { getAllPref } = usePrefActions()
     const history = useHistory()
 
     let updated = false
@@ -243,6 +245,10 @@ export default function UserPreferences(){
         updated = true
         history.goBack()
     }
+
+    useEffect(() => {
+        getAllPref()
+    })
 
     let allergenList = (
         <Paper component='ul' className={classes.tagWrapper}>
