@@ -3,7 +3,7 @@ import { API_URL } from '../../APIEndpoints'
 
 
 const Axios = axios.create({
-    baseURL: process.env.NODE_ENV === 'development' ? API_URL : '',
+    baseURL: process.env.NODE_ENV === 'development' ? API_URL : 'https://buds-backend.herokuapp.com/',
     timeout: 50000
 })
 
