@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     },
     textWrap: {
         padding: '0 16px',
-        marginTop: '190px',
+        marginTop: '140px',
         zIndex: 3,       
     },
     titleText: {
@@ -142,7 +142,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-end',
         height: '50px',
         width: '100%',
-        bottom: '0',
+        bottom: '0px',
         left: '0',
     },
     bottomButton: {
