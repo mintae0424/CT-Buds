@@ -247,7 +247,7 @@ export default function UserPreferences(){
 
     useEffect(() => {
         getAllPref()
-    })
+    }, [])
 
     let allergenList = (
         <Paper component='ul' className={classes.tagWrapper}>
