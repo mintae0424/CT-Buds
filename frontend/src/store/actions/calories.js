@@ -9,5 +9,4 @@ export const suggestCalories = ({
 
 export const handleCalculateError = error => ({
     type: SET_TO_ZERO,
-    payload: calories
 })
