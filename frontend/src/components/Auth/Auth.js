@@ -2,14 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import firebase from 'firebase'
-import { fade, makeStyles } from '@material-ui/core/styles'
+import { fade, makeStyles, withStyles } from '@material-ui/core/styles'
 import Navigation from '../Navigation/Navigation'
 import WorkInProgressImage from '../../images/WorkInProgressImage.png'
 import { useAuthActions } from '../../hooks/commands/useAuthActions'
 import { useAuth } from '../../hooks/queries/useAuth'
-import { IconButton, List, ListItem, ListItemText, Divider } from "@material-ui/core"
+import { Button, IconButton, List, ListItem, ListItemText, Divider } from "@material-ui/core"
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import './firebaseui-styling.global.css'
+
+const StyledButton = withStyles({
+    root: {
+        backgroundColor: '#0372bc',
+        '&:hover': {
+            backgroundColor: '#0372bc'
+        },
+        textTransform: 'none',
+        color: 'white'
+    }
+})((props) => <Button color='default' {...props} />)
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
             width: '800px',
         },
     },
+    myfitnesspalLogo: {
+        margin: '2px 10px 2px 5px'
+    }
 }))
 
 var firebaseConfig = {
@@ -162,7 +176,9 @@ export default function Auth(){
                                 </ListItem>
                             </List>
                         </>
-                        : <StyledFirebaseAuth uiConfig={fireBaseUIConfig} firebaseAuth={firebase.auth()} />}
+                        : <><StyledFirebaseAuth uiConfig={fireBaseUIConfig} firebaseAuth={firebase.auth()} />
+                          <StyledButton href="https://www.myfitnesspal.com/" target="_blank"><img className={classes.myfitnesspalLogo}src='/images/myfitnesspal.png' height='25'></img> Log in with myfitnesspal</StyledButton></>
+                        }
                 </div>
                 <img className={classes.mainBG} src={WorkInProgressImage} />
             </div>

@@ -6,6 +6,7 @@ import uiReducer from './uiReducer'
 import restaurantReducer from './restaurantReducer'
 import currentRestaurantReducer from './currentRestaurantReducer'
 import cartReducer from './cartReducer'
+import caloriesReducer from './calorieReducer'
 
 export const rootReducer = combineReducers({
     authUser: authReducer,
@@ -15,4 +16,5 @@ export const rootReducer = combineReducers({
     restaurants: restaurantReducer,
     currentRestaurant: currentRestaurantReducer,
     cart: cartReducer,
+    calories: caloriesReducer,
 })

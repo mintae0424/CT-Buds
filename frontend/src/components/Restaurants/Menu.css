@@ -150,6 +150,7 @@
     display: flex;
     align-items: center;
     left: 34px;
+    
 }
 .icon-wrapper-2{
     position: absolute;
@@ -186,14 +187,17 @@
 }
 
 
-/* .filter-button-wrapper {
+.filter-button-wrapper {
     position: relative;
     display: flex;
     justify-content: flex-end;
-    background-color: rgba(73, 148, 61, .5);
-    left: -30px;
-    width: 230px;
+    left: -10px;
+    width: 200px;
     border-radius: 10px;
-    padding: 0px 10px 0px 10px
-} */
+    padding: 0px 10px 0px 10px;
+    z-index: -1;
+}
 
+.switch-wrapper {
+    margin-top: 30px
+}

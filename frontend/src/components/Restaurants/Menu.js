@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
-import { Button, Badge, Chip, Checkbox, IconButton, Typography, Select, MenuItem, Slider, Popper } from '@material-ui/core'
+import { makeStyles, createMuiTheme, withStyles } from '@material-ui/core/styles'
+import { Button, Badge, Chip, Grid, IconButton, Typography, Select, MenuItem, Switch, Popper } from '@material-ui/core'
 import { PinDrop, ArrowForwardIos, ArrowBackIos, Tune, Search, ShoppingCart, RoomService, AddCircle, RemoveCircle } from '@material-ui/icons'
 import Navigation from '../Navigation/Navigation'
 import { usePref } from '../../hooks/queries/usePref'
@@ -24,6 +24,41 @@ const initialFormData = {
     diet_id: [],
     cuisine_id: [],
 }
+
+const StyledSwitch = withStyles((theme) => ({
+    root: {
+      width: 28,
+      height: 16,
+      padding: 0,
+      display: 'flex',
+      marginTop: '10px'
+    },
+    switchBase: {
+      padding: 2,
+      color: theme.palette.grey[500],
+      '&$checked': {
+        transform: 'translateX(12px)',
+        color: theme.palette.common.white,
+        '& + $track': {
+          opacity: 1,
+          backgroundColor: theme.palette.primary.main,
+          borderColor: theme.palette.primary.main,
+        },
+      },
+    },
+    thumb: {
+      width: 12,
+      height: 12,
+      boxShadow: 'none',
+    },
+    track: {
+      border: `1px solid ${theme.palette.grey[500]}`,
+      borderRadius: 16 / 2,
+      opacity: 1,
+      backgroundColor: theme.palette.common.white,
+    },
+    checked: {},
+  }))(Switch);
 
 const theme = createMuiTheme({
     overrides: {
@@ -393,15 +428,23 @@ export default function UserPreferences(){
                             <GreenButton className={classes.popperButton} color='primary' variant='contained' onClick={handlePopperClick}>
                                     Set Calories
                             </GreenButton>
-                            {pref ? 
+                            {/* {pref ? 
                                 <GreenButton className={classes.popperButton} color='primary' variant='contained' onClick={handlePrefClick}>
                                     Clear Preferences
                                 </GreenButton>
                                 : <GreenButton className={classes.popperButton} color='primary' variant='contained' onClick={handlePrefClick}>
                                     Set Preferences
                                 </GreenButton>
-                            }
-                            
+                            } */}
+                            <Typography className='switch-wrapper' component="div">
+                                <Grid component="label" container alignItems="center" spacing={1}>
+                                    <Grid style={{'margin-top': '10px', 'font-size': '11px', 'color': 'white'}} item>Off</Grid>
+                                    <Grid item>
+                                        <StyledSwitch checked={pref} onChange={handlePrefClick} name="checkedC" />
+                                    </Grid>
+                                    <Grid style={{'margin-top': '10px', 'font-size': '11px', 'color': 'white'}} className='switch-wrapper' item>On</Grid>
+                                </Grid>
+                            </Typography>
                         </div>
                     </Popper>
                     <Tune className={classes.filterButton} color='primary' variant='contained' onClick={handleSecondPopperClick} />

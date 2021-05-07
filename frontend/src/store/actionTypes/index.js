@@ -21,3 +21,8 @@ export const ADD_TO_CART = 'ADD_TO_CART'
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 export const REMOVE_ALL = 'REMOVE_ALL'
 export const UPDATE_CART = 'UPDATE_CART'
+
+export const NLP_REQUEST = 'NLP_REQUEST'
+
+export const SUGGEST_CALORIES = "SUGGEST_CALORIES"
+export const SET_TO_ZERO = "SET_TO_ZERO"

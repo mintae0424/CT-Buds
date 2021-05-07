@@ -6,14 +6,26 @@ import { useModal } from '../../../hooks/queries/useModal'
 import { useModalActions } from '../../../hooks/commands/useModalActions'
 import { useCurrentRestaurant } from '../../../hooks/queries/useCurrentRestaurant'
 import { useCurrentRestaurantActions } from '../../../hooks/commands/useCurrentRestaurantActions'
+import { useCalories } from '../../../hooks/queries/useCalories'
+import { useCaloriesActions } from '../../../hooks/commands/useCalorieActions'
 import { ValidatorForm, SelectValidator } from 'react-material-ui-form-validator'
 import { formArray } from './MenuItemEditConfig'
 import InputClass from '../../../factory/Input/InputClass'
 import { usePrefActions } from '../../../hooks/commands/usePrefActions'
 import { usePref } from '../../../hooks/queries/usePref'
+import GreenButton from '../../../factory/Button/GreenButton'
+import SmallButton from '../../../factory/Button/SmallButton'
+import axios from 'axios'
+import { NLP_URL } from '../../../APIEndpoints'
+
+const Axios = axios.create({
+    baseURL: NLP_URL,
+    timeout: 50000
+})
 
 
 const initialFormData = {
+    calculated: false,
     submitted: false,
     name: '',
     restaurant_id: '',
@@ -47,11 +59,11 @@ const GreenCheckbox = withStyles({
     checked: {},
   })((props) => <Checkbox color="default" {...props} />);
 
-const GreenButton = withStyles({
-    root: {
-        backgroundColor: 'rgba(73, 148, 61, 1)',
-    }
-})((props) => <Button color='default' {...props} />)
+// const GreenButton = withStyles({
+//     root: {
+//         backgroundColor: 'rgba(73, 148, 61, 1)',
+//     }
+// })((props) => <Button color='default' {...props} />)
 
 
 const useStyles = makeStyles((theme) => ({
@@ -122,8 +134,8 @@ const useStyles = makeStyles((theme) => ({
     categoryTitle: {
         fontWeight: 'bold',
         textAlign: 'center',
-        fontSize: '12px',
-        margin: theme.spacing(2, 1, 1)
+        fontSize: '14px',
+        margin: theme.spacing(5, 1, 1)
     },
     tagAllergy: {
         backgroundColor: 'rgba(202, 211, 90, 1)',
@@ -178,15 +190,15 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     },
     caloriesInfoWrapper:{
-        marginTop: theme.spacing(2)
+        marginTop: theme.spacing(6)
     },
     caloriesWrapper: {
         display: 'flex',
         justifyContent: 'space-evenly',
-        marginTop: theme.spacing(1)
+        marginTop: theme.spacing(2)
     },
     caloriesTitle: {
-        fontSize: '12px',
+        fontSize: '14px',
         textAlign: 'center',
         fontWeight: 'bold'
     }
@@ -200,12 +212,15 @@ export default function MenuItemEditModal({data}){
     const { toggleModalFalse } = useModalActions()
     const { createMenuItem } = useCurrentRestaurantActions()
     const { info } = useCurrentRestaurant()
+    const { calories } = useCalories()
+    const { calculateCalories } = useCaloriesActions()
     const { getAllPref } = usePrefActions()
     const { preferences } = usePref()
     const [ formData, setFormData ] = useState(data)
     const [ deleteState, setDeleteState ] = useState(false)
     let submitted = false
     const { editing } = formData
+    const { calculated } = formData
     
     let { Allergy, Diet, Cuisine } = preferences
     
@@ -242,6 +257,27 @@ export default function MenuItemEditModal({data}){
             ...formData,
             formData
         })
+    }
+
+    const handleCalculateCalories = (event) => {
+        const { description } = formData
+        const url = '/calories/' + description
+        Axios.get(url)
+            .then((response) => {
+                const new_calories = response.data.calories
+                const high = Math.round(new_calories)
+                const low = Math.round(high*.7)
+                setFormData({
+                    ...formData,
+                    calories: {
+                        ...formData.calories,
+                        high: high,
+                        low: low
+                    }
+                })
+            }, (error) => {
+                console.log(error)
+            })
     }
 
     const handleLowCaloriesChange = (event) => {
@@ -513,6 +549,21 @@ export default function MenuItemEditModal({data}){
         setFormData(data)
     }, [modalVisible])
 
+    // useEffect(() => {
+    //     const new_calories = calories
+    //     console.log(new_calories)
+    //     const high = Math.round(new_calories)
+    //     const low = high - 100
+    //     setFormData({
+    //         ...formData,
+    //         calories: {
+    //             ...formData.calories,
+    //             high: high,
+    //             low: low
+    //         }
+    //     })
+    // }, [calculated])
+
     return (
         <>
             <Modal
@@ -551,6 +602,40 @@ export default function MenuItemEditModal({data}){
                             </SelectValidator>
                         </FormControl>
                         {form}
+                        <div className={classes.caloriesInfoWrapper}>
+                            <div className={classes.caloriesTitle}>
+                                Calories
+                            </div>
+                            <div className={classes.caloriesTitle}>
+                                <SmallButton style={{'margin': '10px'}} variant='contained' size='small' onClick={handleCalculateCalories}>Calculate</SmallButton>
+                            </div>
+                            <div className={classes.caloriesWrapper}>
+                                <TextField
+                                    label="Low"
+                                    type='number'
+                                    onChange={handleLowCaloriesChange}
+                                    value={formData.calories.low}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    style={{
+                                        width: '100px'
+                                    }}
+                                />
+                                <TextField
+                                    label="High"
+                                    type='number'
+                                    onChange={handleHighCaloriesChange}
+                                    value={formData.calories.high}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    style={{
+                                        width: '100px'
+                                    }}
+                                />
+                            </div>
+                        </div>
                         <div className={classes.categoryTitle}>Select associated allergens</div>
                         {allergenList}
                         <div className={classes.categoryTitle}>Select associated diets</div>
@@ -588,35 +673,6 @@ export default function MenuItemEditModal({data}){
                                         name="dinner"
                                         color="primary"
                                     />
-                            </div>
-                        </div>
-                        <div className={classes.caloriesInfoWrapper}>
-                            <div className={classes.caloriesTitle}>Input calories</div>
-                            <div className={classes.caloriesWrapper}>
-                                <TextField
-                                    label="Low"
-                                    type='number'
-                                    onChange={handleLowCaloriesChange}
-                                    value={formData.calories.low}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    style={{
-                                        width: '100px'
-                                    }}
-                                />
-                                <TextField
-                                    label="High"
-                                    type='number'
-                                    onChange={handleHighCaloriesChange}
-                                    value={formData.calories.high}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    style={{
-                                        width: '100px'
-                                    }}
-                                />
                             </div>
                         </div>
                     </div>
