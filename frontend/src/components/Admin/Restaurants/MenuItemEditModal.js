@@ -265,8 +265,8 @@ export default function MenuItemEditModal({data}){
         Axios.get(url)
             .then((response) => {
                 const new_calories = response.data.calories
-                const high = Math.round(new_calories)
-                const low = Math.round(high*.7)
+                const high = Math.round(new_calories/10)*10
+                const low = Math.round(high*.7/10)*10
                 setFormData({
                     ...formData,
                     calories: {

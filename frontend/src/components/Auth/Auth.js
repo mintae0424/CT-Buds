@@ -168,7 +168,7 @@ export default function Auth(){
                                 <ListItem  button onClick={handleClickToPreferences}>
                                     <div className={classes.signinFeatures}>Set Preference</div>
                                 </ListItem>
-                                <ListItem  button component='a' href='/'>
+                                <ListItem  button component='a' href='/restaurants/606e881e7b98f66a6899c035'>
                                     <div className={classes.signinFeatures}>Start Ordering</div>
                                 </ListItem>
                                 <ListItem  button onClick={() => firebase.auth().signOut()}>

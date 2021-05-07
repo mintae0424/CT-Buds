@@ -194,7 +194,7 @@ export default function Navigation() {
                             disableScrollLock={true}
                             MenuListProps={{ onMouseLeave: handleClose }}
                         >
-                            <MenuItem component={Link} className={classes.dropDownItem} href='/comingsoon'>Restaurants</MenuItem>
+                            <MenuItem component={Link} className={classes.dropDownItem} href='/admin'>Restaurants</MenuItem>
                             <MenuItem component={Link} className={classes.dropDownItem} href='/comingsoon'>Advertisements</MenuItem>
                         </Menu>
                         { isAuthenticated ? 
@@ -265,7 +265,7 @@ export default function Navigation() {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <List>
-                                        <ListItem component='a' button href='/comingsoon' key="Restaurants">
+                                        <ListItem component='a' button href='/admin' key="Restaurants">
                                             <ListItemText primary="Restaurants" />
                                         </ListItem>
                                         <ListItem component='a' button href='/comingsoon' key='Advertisers'>
